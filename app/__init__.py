@@ -5,9 +5,9 @@ from app.db import db
 from app.films.resources import films_v1_0_bp
 from app.ext import ma, migrate
 
-def create_app(settings_module):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(settings_module)
+    #app.config.from_object(settings_module)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///films.sqlite'
     app.config[
         'SECRET_KEY'] = '123447a47f563e90fe2db0f56b1b17be62378e31b7cfd3adc776c59ca4c75e2fc512c15f69bb38307d11d5d17a41a7936789'
@@ -28,6 +28,7 @@ def create_app(settings_module):
     app.register_blueprint(films_v1_0_bp)
     # Registra manejadores de errores personalizados
     register_error_handlers(app)
+
     return app
 
 def register_error_handlers(app):
@@ -49,3 +50,4 @@ def register_error_handlers(app):
     @app.errorhandler(ObjectNotFound)
     def handle_object_not_found_error(e):
         return jsonify({'msg': str(e)}), 404
+
